@@ -7,11 +7,18 @@ pipeline {
     }
 */
     environment {
-        registry = "imranvisualpath/vproappdock"
-        registryCredential = 'dockerhub'
+        registry = 'sujanmj/cicd'
+        registryCredential = 'DockerHub-key'
     }
 
     stages{
+        stage('Checkout'){
+            steps{
+                cleanWs()
+                git branch: 'cd-project', url: 'https://github.com/sujanmj/cicd-project.git'
+                sh "git clone https://github.com/sujanmj/cicd-project.git -b cd-project"
+            }
+        }
 
         stage('BUILD'){
             steps {
@@ -48,42 +55,40 @@ pipeline {
             }
         }
 
-
         stage('Building image') {
             steps{
               script {
-                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                dockerImage = docker.build "$registry:V$BUILD_NUMBER"
               }
             }
         }
         
         stage('Deploy Image') {
           steps{
-            script {
-              docker.withRegistry( '', registryCredential ) {
-                dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
+              withCredentials([string(credentialsId: 'Docker', variable: 'pass')]) {
+              sh 'docker login -u sujanmj -p $pass' }
+                
+            script{
+                dockerImage.push("V$BUILD_NUMBER")
+                dockerImage.push('latest') }
               }
             }
-          }
-        }
-
         stage('Remove Unused docker image') {
           steps{
-            sh "docker rmi $registry:$BUILD_NUMBER"
+              sh 'docker image prune --all --force'
           }
         }
 
         stage('CODE ANALYSIS with SONARQUBE') {
 
             environment {
-                scannerHome = tool 'mysonarscanner4'
+                scannerHome = tool 'sonarscanner 4.8'
             }
 
             steps {
-                withSonarQubeEnv('sonar-pro') {
-                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+                withSonarQubeEnv('sonarscanner') {
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Projectcd \
+                   -Dsonar.projectName=cd-project \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -92,19 +97,17 @@ pipeline {
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
                 }
 
-                timeout(time: 10, unit: 'MINUTES') {
+             /*   timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
-                }
+                } */
             }
         }
         stage('Kubernetes Deploy') {
-	  agent { label 'KOPS' }
             steps {
-                    sh "helm upgrade --install --force vproifle-stack helm/vprofilecharts --set appimage=${registry}:${BUILD_NUMBER} --namespace prod"
+                sh "kubectl apply -f ./helm/templates"
             }
-        }
+       }
 
-    }
-
+   }
 
 }
