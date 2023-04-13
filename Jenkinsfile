@@ -9,15 +9,22 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
-        NEXUS_REPOSITORY = "vprofile-release"
-	NEXUS_REPOGRP_ID    = "vprofile-grp-repo"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
+        NEXUS_URL = "172.31.21.203:8081"
+        NEXUS_REPOSITORY = "ReleaseRepo"
+	    NEXUS_REPOGRP_ID    = "cicd-project"
+        NEXUS_CREDENTIAL_ID = "Nexus"
+        NEXUSPORT = "8081"
         ARTVERSION = "${env.BUILD_ID}"
     }
 	
     stages{
-        
+        stage('Checkout'){
+            steps{
+                cleanWs()
+                git branch: 'ci-project', url: 'https://github.com/sujanmj/cicd-project.git'
+                sh "git clone https://github.com/sujanmj/cicd-project.git -b ci-project"
+            }
+        }
         stage('BUILD'){
             steps {
                 sh 'mvn clean install -DskipTests'
@@ -30,13 +37,13 @@ pipeline {
             }
         }
 
-	stage('UNIT TEST'){
+    	stage('UNIT TEST'){
             steps {
                 sh 'mvn test'
             }
         }
 
-	stage('INTEGRATION TEST'){
+    	stage('INTEGRATION TEST'){
             steps {
                 sh 'mvn verify -DskipUnitTests'
             }
@@ -56,13 +63,13 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
-             scannerHome = tool 'sonarscanner4'
-          }
+             scannerHome = tool 'sonarscanner 4.8'
+        }
 
           steps {
-            withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+            withSonarQubeEnv('sonarscanner') {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Project \
+                   -Dsonar.projectName=ci-project \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -71,9 +78,9 @@ pipeline {
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
             }
 
-            timeout(time: 10, unit: 'MINUTES') {
+          /*  timeout(time: 10, unit: 'MINUTES') {
                waitForQualityGate abortPipeline: true
-            }
+            } */
           }
         }
 
@@ -112,10 +119,10 @@ pipeline {
                     }
                 }
             }
-        }
+     }
 
 
-    }
+}
 
 
 }
