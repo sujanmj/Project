@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd
+  labels: 
+    app: cicd
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cicd
+  template:
+    metadata:
+      labels:
+        app: cicd
+    spec:
+      containers:
+      - name: cicd
+        image: sujanmj/cicd:latest
+        ports:
+        - name: cicd-port
+          containerPort: 8080
+      initContainers:
+      - name: init-mysqlservice
+        image: busybox
+        command: ['sh', '-c', 'until nslookup mysqlservice; do echo waiting for mysqlservice; sleep 2; done;']
+      - name: init-memcachedservice
+        image: busybox
+        command: ['sh', '-c', 'until nslookup memcachedservice; do echo waiting for memcachedservice; sleep 2; done;']
