@@ -21,8 +21,8 @@
                                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
                                     class="icon-bar"></span><span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="${contextPath}/index">VISUAL PATH</a>
-                            <i class="brand_network"><small><small>VProfile</small></small></i>
+                            <a class="navbar-brand" href="${contextPath}/index">cd/cd-project</a>
+                            <i class="brand_network"><small><small>Sujan Mj</small></small></i>
                         </div>
                         <div class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
@@ -116,11 +116,11 @@
   <div class="container w3-padding-32" id="about">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16" align="center">ABOUT</h3>
     <div class="w3-content" style="max-width:700px">
-	    <p style="text-align:justify;">VisualPath is an IT Educational Institute.Established in 2001,and Institute offers world class quality of education and wide range of courses.VisualPath Institute has a dedicated placement team to help students get job placement in various IT job roles with major companies.
+	    <p style="text-align:justify;">Devops Engineer  
 	    </p>
-	    <p><strong>Address:</strong>  Flat no: 205, 2nd Floor,NILGIRI Block,Aditya Encalve,Ameerpet, Hyderabad-16</p> 
-	    <p><strong>Ph No: </strong>  +91-9704455959,9618245689</p>
-		<p><strong>E-Mail ID :</strong>  visualpath999@gmail.com</p>
+	    <p><strong>Address:</strong>  Davangere,KA</p> 
+	    <p><strong>Ph No: </strong>  +91-7892623097</p>
+		<p><strong>E-Mail ID :</strong>  sujan.mj03@ymail.com</p>
   	</div>
    </div>
   
@@ -145,7 +145,7 @@
 
 <!-- Footer -->
 <footer class="w3-center  w3-padding-16" style="background-color:#1C3B47 ">
-  <p style="color:#FFFFFF ">Copyright @2017 <a href="#"  target="_blank" class="w3-hover-text-green"> visualpathit.com</a></p>
+  <p style="color:#FFFFFF ">Copyright @2023 <a href="#"  target="_blank" class="w3-hover-text-green"> sujan mj@instagram.com</a></p>
 </footer>
 
 
