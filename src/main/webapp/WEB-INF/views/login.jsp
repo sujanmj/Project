@@ -72,6 +72,7 @@
 	
     <form method="POST" action="${contextPath}/login" class="form-signin">
         <h2 class="form-heading" align="center"> LOGIN </h2>
+        <div class="rainbow-loader"></div>
 		<img  class="logo" src="${contextPath}/resources/Images/visualpathlogo3.png" />
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
@@ -92,3 +93,4 @@
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
+
