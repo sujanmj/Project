@@ -1,8 +1,8 @@
-resource "aws_elastic_beanstalk_environment" "vprofile-bean-prod" {
-  name                = "vprofile-bean-prod"
-  application         = aws_elastic_beanstalk_application.vprofile-prod.name
+resource "aws_elastic_beanstalk_environment" "mjfile-bean-prod" {
+  name                = "mjfile-bean-prod"
+  application         = aws_elastic_beanstalk_application.mjfile-prod.name
   solution_stack_name = "64bit Amazon Linux 2 v4.1.1 running Tomcat 8.5 Corretto 11"
-  cname_prefix        = "vprofile-bean-prod-domain"
+  cname_prefix        = "mjfile-bean-prod-domain"
   setting {
     name      = "VPCId"
     namespace = "aws:ec2:vpc"
@@ -39,7 +39,7 @@ resource "aws_elastic_beanstalk_environment" "vprofile-bean-prod" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
-    value     = aws_key_pair.vprofilekey.key_name
+    value     = aws_key_pair.mjfilekey.key_name
   }
 
   setting {
@@ -121,15 +121,15 @@ resource "aws_elastic_beanstalk_environment" "vprofile-bean-prod" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
-    value     = aws_security_group.vprofile-prod-sg.id
+    value     = aws_security_group.mjfile-prod-sg.id
   }
 
   setting {
     namespace = "aws:elbv2:loadbalancer"
     name      = "SecurityGroups"
-    value     = aws_security_group.vprofile-bean-elb-sg.id
+    value     = aws_security_group.mjfile-bean-elb-sg.id
   }
 
-  depends_on = [aws_security_group.vprofile-bean-elb-sg, aws_security_group.vprofile-prod-sg]
+  depends_on = [aws_security_group.mjfile-bean-elb-sg, aws_security_group.mjfile-prod-sg]
 
 }
