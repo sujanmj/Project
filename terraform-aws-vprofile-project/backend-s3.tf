@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "terra-vprofile-state11"
+    bucket = "mj-terra-bucket"
     key    = "terraform/backend"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
