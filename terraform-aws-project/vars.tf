@@ -1,22 +1,22 @@
 variable AWS_REGION {
-  default = "us-east-2"
+  default = "us-east-1"
 }
 
 variable AMIS {
   type = map
   default = {
     us-east-2  = "ami-07efac79022b86107"
-    us-east-1  = "ami-06397100adf427136"
+    us-east-1  = "ami-0c6c29c5125214c77"
     ap-south-1 = "ami-009110a2bf8d7dd0a"
   }
 }
 
 variable PRIV_KEY_PATH {
-  default = "vprofilekey"
+  default = "mjfilekey"
 }
 
 variable PUB_KEY_PATH {
-  default = "vprofilekey.pub"
+  default = "mjfilekey.pub"
 }
 
 variable USERNAME {
@@ -32,7 +32,7 @@ variable rmquser {
 }
 
 variable rmqpass {
-  default = "Gr33n@pple123456"
+  default = "Sa8553459298@"
 }
 
 variable dbuser {
@@ -40,7 +40,7 @@ variable dbuser {
 }
 
 variable dbpass {
-  default = "admin123"
+  default = "admin"
 }
 
 variable dbname {
@@ -52,19 +52,19 @@ variable instance_count {
 }
 
 variable VPC_NAME {
-  default = "vprofile-VPC"
+  default = "mjfile-VPC"
 }
 
 variable Zone1 {
-  default = "us-east-2a"
+  default = "us-east-1a"
 }
 
 variable Zone2 {
-  default = "us-east-2b"
+  default = "us-east-1b"
 }
 
 variable Zone3 {
-  default = "us-east-2c"
+  default = "us-east-1c"
 }
 
 variable VpcCIDR {
