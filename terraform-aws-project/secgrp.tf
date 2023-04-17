@@ -1,5 +1,5 @@
-resource "aws_security_group" "vprofile-bean-elb-sg" {
-  name        = "vprofile-bean-elb-sg"
+resource "aws_security_group" "mjfile-bean-elb-sg" {
+  name        = "mjfile-bean-elb-sg"
   description = "Security group for bean-elb"
   vpc_id      = module.vpc.vpc_id
   egress {
@@ -17,8 +17,8 @@ resource "aws_security_group" "vprofile-bean-elb-sg" {
   }
 }
 
-resource "aws_security_group" "vprofile-bastion-sg" {
-  name        = "vprofile-bastion-sg"
+resource "aws_security_group" "mjfile-bastion-sg" {
+  name        = "mjfile-bastion-sg"
   description = "Security group for bastionisioner ec2 instance"
   vpc_id      = module.vpc.vpc_id
   egress {
@@ -35,8 +35,8 @@ resource "aws_security_group" "vprofile-bastion-sg" {
   }
 }
 
-resource "aws_security_group" "vprofile-prod-sg" {
-  name        = "vprofile-prod-sg"
+resource "aws_security_group" "mjfile-prod-sg" {
+  name        = "mjfile-prod-sg"
   description = "Security group for beanstalk instances"
   vpc_id      = module.vpc.vpc_id
   egress {
@@ -49,12 +49,12 @@ resource "aws_security_group" "vprofile-prod-sg" {
     from_port       = 22
     protocol        = "tcp"
     to_port         = 22
-    security_groups = [aws_security_group.vprofile-bastion-sg.id]
+    security_groups = [aws_security_group.mjfile-bastion-sg.id]
   }
 }
 
-resource "aws_security_group" "vprofile-backend-sg" {
-  name        = "vprofile-backend-sg"
+resource "aws_security_group" "mjfile-backend-sg" {
+  name        = "mjfile-backend-sg"
   description = "Security group for RDS, active mq, elastic cache"
   vpc_id      = module.vpc.vpc_id
   egress {
@@ -67,13 +67,13 @@ resource "aws_security_group" "vprofile-backend-sg" {
     from_port       = 0
     protocol        = "-1"
     to_port         = 0
-    security_groups = [aws_security_group.vprofile-prod-sg.id]
+    security_groups = [aws_security_group.mjfile-prod-sg.id]
   }
   ingress {
     from_port       = 3306
     protocol        = "tcp"
     to_port         = 3306
-    security_groups = [aws_security_group.vprofile-bastion-sg.id]
+    security_groups = [aws_security_group.mjfile-bastion-sg.id]
   }
 }
 
@@ -82,6 +82,6 @@ resource "aws_security_group_rule" "sec_group_allow_itself" {
   from_port                = 0
   to_port                  = 65535
   protocol                 = "tcp"
-  security_group_id        = aws_security_group.vprofile-backend-sg.id
-  source_security_group_id = aws_security_group.vprofile-backend-sg.id
+  security_group_id        = aws_security_group.mjfile-backend-sg.id
+  source_security_group_id = aws_security_group.mjfile-backend-sg.id
 }
